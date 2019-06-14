@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:whats_app_clone/whatsapp_home.dart';
 import 'package:camera/camera.dart';
+import 'package:whats_app_clone/pages/calling_screen.dart';
+
 
 List<CameraDescription> cameras;
 
@@ -21,7 +23,11 @@ class MyApp extends StatelessWidget {
         accentColor: new Color(0xff25D366),
       ),
       debugShowCheckedModeBanner: false,
-      home: new WhatsAppHome(cameras),
+      initialRoute: '/',
+      routes: {
+        '/':(context)=> WhatsAppHome(cameras),
+//        '/calling':(context)=> CallingScreen()
+      },
     );
   }
 }
