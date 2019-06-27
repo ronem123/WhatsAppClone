@@ -85,13 +85,11 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
       child: new ListView.builder(
           itemCount: messageList.length,
           padding: EdgeInsets.symmetric(vertical: 19),
-          itemBuilder: (context, i) => Container(
-                decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/bg.jpg"),fit: BoxFit.cover)),
+          itemBuilder: (context, i) => Card(
                 child: ListTile(
                   title: new Text(messageList[i].message),
-                  subtitle: new Row(
+                  subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
                     children: <Widget>[
                       Text(messageList[i].time,
                           style: TextStyle(
