@@ -22,6 +22,8 @@ dependencies:
   toast: ^0.1.4
   camera:
 
+  cloud_firestore:
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -41,6 +43,8 @@ flutter:
     - assets/images/mic.png
     - assets/images/msg.png
     - assets/images/speaker.png
+    - assets/images/video.png
+    - assets/images/bg.jpg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

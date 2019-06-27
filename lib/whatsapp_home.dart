@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:whats_app_clone/pages/call_screen.dart';
-import 'package:whats_app_clone/pages/camera_screen.dart';
-import 'package:whats_app_clone/pages/chat_screen.dart';
-import 'package:whats_app_clone/pages/status_screen.dart';
+import 'package:whats_app_clone/pages/tab_call_screen.dart';
+import 'package:whats_app_clone/pages/tab_camera_screen.dart';
+import 'package:whats_app_clone/pages/tab_chat_screen.dart';
+import 'package:whats_app_clone/pages/tab_status_screen.dart';
 
 class WhatsAppHome extends StatefulWidget {
   var cameras;

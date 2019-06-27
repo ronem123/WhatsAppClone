@@ -5,7 +5,7 @@ import '../models/call_model.dart';
 
 class CallingScreen extends StatelessWidget {
   BuildContext context;
-  CallModel callData;
+  final CallModel callData;
 
   CallingScreen({this.callData});
 
