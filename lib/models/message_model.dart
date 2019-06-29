@@ -13,4 +13,8 @@ List<MessageModel> messageList = [
   new MessageModel(message: "Hello! I am fine what about you ?",readStatus: false,time: "10:00 am",isMe: true),
   new MessageModel(message: "Euta kaam aaeko cha flutter ma garne ho ? Ramro pay cha",readStatus: true,time: "10:00 am",isMe: true),
   new MessageModel(message: "Eah eah huncha garam na milera kasto project ho?",readStatus: true,time: "10:00 am",isMe: false),
+  new MessageModel(message: "Project ta ramro cha",readStatus: true,time: "10:00 am",isMe: true),
+  new MessageModel(message: "Alexa suneko cha? Alexa assistant google ko?",readStatus: true,time: "10:00 am",isMe: true),
+  new MessageModel(message: "khai kata kata sune jasto laageko cha",readStatus: true,time: "10:00 am",isMe: false),
+  new MessageModel(message: "Google ko speech recognize garera kaam gardine",readStatus: true,time: "10:00 am",isMe: true)
 ];
