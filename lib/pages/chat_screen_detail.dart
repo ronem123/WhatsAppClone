@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:toast/toast.dart';
 import '../models/chat_model.dart';
 import '../models/message_model.dart';
 
@@ -14,11 +14,14 @@ class ChatScreenDetail extends StatefulWidget {
 
 class _ChatScreenDetailState extends State<ChatScreenDetail> {
   ChatModel chatModel;
+  BuildContext context;
+  TextEditingController textEditController = new TextEditingController();
 
   _ChatScreenDetailState(this.chatModel);
 
   @override
   Widget build(BuildContext context) {
+    this.context = context;
     return Scaffold(
       appBar: AppBar(
         title: new Row(
@@ -69,7 +72,7 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
       child: Container(
         decoration: new BoxDecoration(
             image: DecorationImage(
-                image: AssetImage("assets/images/bg.jpg"), fit: BoxFit.cover)),
+                image: AssetImage("assets/images/bg.png"), fit: BoxFit.cover)),
         child: Stack(
           children: <Widget>[
             Align(alignment: Alignment.center, child: getChatList()),
@@ -79,8 +82,6 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
       ),
     );
   }
-
-
 
   Widget getChatList() {
     return Container(
@@ -97,23 +98,62 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
   Widget getMessageBoxView() {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: new TextField(
-            decoration: new InputDecoration(
-                prefixIcon: new Icon(Icons.insert_emoticon, color: Colors.grey),
-                hintText: "Type a message",
-                suffixIcon: new Icon(
-                  Icons.camera_alt,
-                  color: Colors.grey,
+          padding: const EdgeInsets.all(8.0),
+          child: Row(
+            children: <Widget>[
+              Flexible(
+                  child: new TextField(
+                    controller: textEditController,
+                      decoration: new InputDecoration(
+                          prefixIcon: new Icon(Icons.insert_emoticon,
+                              color: Colors.grey),
+                          hintText: "Type a message",
+                          suffixIcon: new Icon(
+                            Icons.camera_alt,
+                            color: Colors.grey,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(30.0)),
+                            borderSide:
+                                BorderSide(width: 0.1, color: Colors.green),
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: const BorderRadius.all(
+                                const Radius.circular(30.0)),
+                            borderSide: BorderSide(
+                                width: 0.1, color: Color(0xff057569)),
+                          ),
+                          fillColor: Colors.white,
+                          filled: true))),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: GestureDetector(
+                  onTap: () {
+                    showMessage(textEditController.text);
+                  },
+                  child: Container(
+                    height: 60,
+                    width: 60,
+                    decoration: BoxDecoration(
+                        color: Color(0xff057569), shape: BoxShape.circle),
+                    padding: EdgeInsets.all(18),
+                    child: Image.asset(
+                      "assets/images/send.png",
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                border: OutlineInputBorder(
-                  borderRadius:
-                      const BorderRadius.all(const Radius.circular(30.0)),
-                ),
-                fillColor: Colors.white,
-                filled: true)),
-      ),
+              )
+            ],
+          )),
     );
+  }
+
+  void showMessage(String msg) {
+//    Navigator.pushNamed(context, '/calling');
+    Toast.show(msg, context,
+        duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
   }
 }
 
