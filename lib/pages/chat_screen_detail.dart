@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 import '../models/chat_model.dart';
 import '../models/message_model.dart';
+import '../view/bubble_view.dart';
+import 'package:intl/intl.dart';
 
 class ChatScreenDetail extends StatefulWidget {
   final ChatModel chatModel;
@@ -15,9 +17,46 @@ class ChatScreenDetail extends StatefulWidget {
 class _ChatScreenDetailState extends State<ChatScreenDetail> {
   ChatModel chatModel;
   BuildContext context;
-  TextEditingController textEditController = new TextEditingController();
+  List<MessageModel> messages = messageList;
+
+  TextEditingController textEditController;
+  ScrollController scrollController;
 
   _ChatScreenDetailState(this.chatModel);
+
+  @override
+  initState() {
+    super.initState();
+    textEditController = new TextEditingController();
+    scrollController = new ScrollController();
+  }
+
+  @override
+  dispose() {
+    textEditController.dispose();
+    scrollController.dispose();
+    super.dispose();
+  }
+
+  addMessage() {
+    setState(() {
+      String msg = textEditController.text;
+      DateTime now = DateTime.now();
+      String currentDate = DateFormat('kk:mm a').format(now);
+      messages.add(new MessageModel(
+          message: msg,
+          readStatus: true,
+          time: currentDate,
+          isMe: msg.startsWith("me") ? true : false));
+      scrollDown();
+      textEditController.text = "";
+    });
+  }
+
+  scrollDown() {
+    scrollController.animateTo(scrollController.position.maxScrollExtent,
+        duration: Duration(milliseconds: 100), curve: Curves.easeOut);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -87,10 +126,11 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
     return Container(
       padding: EdgeInsets.fromLTRB(5, 5, 5, 70),
       child: new ListView.builder(
-          itemCount: messageList.length,
+          controller: scrollController,
+          itemCount: messages.length,
           padding: EdgeInsets.symmetric(vertical: 5),
           itemBuilder: (context, i) => Bubble(
-                messageModel: messageList[i],
+                messageModel: messages[i],
               )),
     );
   }
@@ -103,7 +143,7 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
             children: <Widget>[
               Flexible(
                   child: new TextField(
-                    controller: textEditController,
+                      controller: textEditController,
                       decoration: new InputDecoration(
                           prefixIcon: new Icon(Icons.insert_emoticon,
                               color: Colors.grey),
@@ -130,7 +170,7 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
                 padding: const EdgeInsets.all(8.0),
                 child: GestureDetector(
                   onTap: () {
-                    showMessage(textEditController.text);
+                    addMessage();
                   },
                   child: Container(
                     height: 60,
@@ -157,78 +197,78 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
   }
 }
 
-class Bubble extends StatelessWidget {
-  final MessageModel messageModel;
-
-  Bubble({this.messageModel});
-
-  @override
-  Widget build(BuildContext context) {
-    final bg = messageModel.isMe ? Colors.greenAccent.shade100 : Colors.white;
-    final align =
-        messageModel.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
-    final icon = messageModel.readStatus ? Icons.done_all : Icons.done;
-    final radius = messageModel.isMe
-        ? BorderRadius.only(
-            topLeft: Radius.circular(5.0),
-            bottomLeft: Radius.circular(5.0),
-            bottomRight: Radius.circular(10.0),
-          )
-        : BorderRadius.only(
-            topRight: Radius.circular(5.0),
-            bottomLeft: Radius.circular(10.0),
-            bottomRight: Radius.circular(5.0),
-          );
-    final itemMargin = messageModel.isMe
-        ? const EdgeInsets.fromLTRB(100, 3, 3, 3)
-        : const EdgeInsets.fromLTRB(3, 3, 100, 3);
-    return Column(
-      crossAxisAlignment: align,
-      children: <Widget>[
-        Container(
-          margin: itemMargin,
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  blurRadius: .5,
-                  spreadRadius: 1.0,
-                  color: Colors.black.withOpacity(.12))
-            ],
-            color: bg,
-            borderRadius: radius,
-          ),
-          child: Stack(
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(right: 90.0),
-                child: Text(messageModel.message),
-              ),
-              Positioned(
-                bottom: 0.0,
-                right: 0.0,
-                child: Row(
-                  children: <Widget>[
-                    Text(messageModel.time,
-                        style: TextStyle(
-                          color: Colors.black38,
-                          fontSize: 10.0,
-                        )),
-                    Icon(
-                      icon,
-                      size: 12.0,
-                      color: Colors.black38,
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        )
-      ],
-    );
-  }
-}
+//class Bubble extends StatelessWidget {
+//  final MessageModel messageModel;
+//
+//  Bubble({this.messageModel});
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    final bg = messageModel.isMe ? Colors.greenAccent.shade100 : Colors.white;
+//    final align =
+//        messageModel.isMe ? CrossAxisAlignment.end : CrossAxisAlignment.start;
+//    final icon = messageModel.readStatus ? Icons.done_all : Icons.done;
+//    final radius = messageModel.isMe
+//        ? BorderRadius.only(
+//            topLeft: Radius.circular(5.0),
+//            bottomLeft: Radius.circular(5.0),
+//            bottomRight: Radius.circular(10.0),
+//          )
+//        : BorderRadius.only(
+//            topRight: Radius.circular(5.0),
+//            bottomLeft: Radius.circular(10.0),
+//            bottomRight: Radius.circular(5.0),
+//          );
+//    final itemMargin = messageModel.isMe
+//        ? const EdgeInsets.fromLTRB(100, 3, 3, 3)
+//        : const EdgeInsets.fromLTRB(3, 3, 100, 3);
+//    return Column(
+//      crossAxisAlignment: align,
+//      children: <Widget>[
+//        Container(
+//          margin: itemMargin,
+//          padding: const EdgeInsets.all(8.0),
+//          decoration: BoxDecoration(
+//            boxShadow: [
+//              BoxShadow(
+//                  blurRadius: .5,
+//                  spreadRadius: 1.0,
+//                  color: Colors.black.withOpacity(.12))
+//            ],
+//            color: bg,
+//            borderRadius: radius,
+//          ),
+//          child: Stack(
+//            children: <Widget>[
+//              Padding(
+//                padding: EdgeInsets.only(right: 90.0),
+//                child: Text(messageModel.message),
+//              ),
+//              Positioned(
+//                bottom: 0.0,
+//                right: 0.0,
+//                child: Row(
+//                  children: <Widget>[
+//                    Text(messageModel.time,
+//                        style: TextStyle(
+//                          color: Colors.black38,
+//                          fontSize: 10.0,
+//                        )),
+//                    Icon(
+//                      icon,
+//                      size: 12.0,
+//                      color: Colors.black38,
+//                    )
+//                  ],
+//                ),
+//              )
+//            ],
+//          ),
+//        )
+//      ],
+//    );
+//  }
+//}
 
 //  Widget getChatList() {
 //    return Container(

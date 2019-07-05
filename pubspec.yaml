@@ -21,7 +21,8 @@ dependencies:
   cupertino_icons: ^0.1.2
   toast: ^0.1.4
   camera:
-
+  #for date time
+  intl: 0.15.7
   cloud_firestore:
 
 dev_dependencies:
