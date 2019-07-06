@@ -23,6 +23,7 @@ dependencies:
   camera:
   #for date time
   intl: 0.15.7
+
   cloud_firestore:
 
 dev_dependencies:
@@ -47,6 +48,7 @@ flutter:
     - assets/images/video.png
     - assets/images/bg.png
     - assets/images/send.png
+    - assets/images/logo.png
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

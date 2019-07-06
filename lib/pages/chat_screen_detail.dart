@@ -4,6 +4,7 @@ import '../models/chat_model.dart';
 import '../models/message_model.dart';
 import '../view/bubble_view.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ChatScreenDetail extends StatefulWidget {
   final ChatModel chatModel;
@@ -18,6 +19,7 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
   ChatModel chatModel;
   BuildContext context;
   List<MessageModel> messages = messageList;
+  DocumentReference userTable;
 
   TextEditingController textEditController;
   ScrollController scrollController;
@@ -29,6 +31,8 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
     super.initState();
     textEditController = new TextEditingController();
     scrollController = new ScrollController();
+//    userTable = Firestore.instance.collection("user").document("loggedin");
+    userTable = Firestore.instance.document("user/loggedin");
   }
 
   @override
@@ -43,13 +47,23 @@ class _ChatScreenDetailState extends State<ChatScreenDetail> {
       String msg = textEditController.text;
       DateTime now = DateTime.now();
       String currentDate = DateFormat('kk:mm a').format(now);
-      messages.add(new MessageModel(
+
+      if (msg.isEmpty) {
+        return;
+      }
+      final MessageModel message = new MessageModel(
           message: msg,
           readStatus: true,
           time: currentDate,
-          isMe: msg.startsWith("me") ? true : false));
-      scrollDown();
+          isMe: msg.startsWith("me") ? true : false);
+
+      userTable.setData(message.toMap()).whenComplete(() {
+//      userTable.setData(map).whenComplete(() {
+      messages.add(message);
       textEditController.text = "";
+      scrollDown();
+      }).catchError((e)=>showMessage(e.toString()));
+
     });
   }
 
