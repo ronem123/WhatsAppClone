@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:whats_app_clone/whatsapp_home.dart';
 import 'package:camera/camera.dart';
 import 'package:whats_app_clone/pages/login_screen.dart';
+import 'pages/signup_screen.dart';
 
 
 List<CameraDescription> cameras;
@@ -25,8 +26,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: '/',
       routes: {
-//        '/':(context)=> WhatsAppHome(cameras),
-        '/':(context)=> LoginPage(cameras),
+        '/home':(context)=> WhatsAppHome(),
+        '/':(context)=> LoginPage(),
+        '/signup':(context)=>SignUpPage(),
       },
     );
   }
