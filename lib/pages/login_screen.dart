@@ -3,11 +3,8 @@ import '../whatsapp_home.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LoginPage extends StatefulWidget {
-  var cameras;
   var inValidEmail = false;
   var inValidPassword = false;
-
-  LoginPage(this.cameras);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -98,6 +95,20 @@ class _LoginPageState extends State<LoginPage> {
               color: Theme.of(context).primaryColor)),
     );
 
+    final newUser = Text("Do not have account?",
+        style: TextStyle(
+            fontWeight: FontWeight.normal,
+            color: Theme.of(context).primaryColor));
+
+    final signUp = GestureDetector(
+        onTap: () {
+          Navigator.pushNamed(context, '/signup');
+        },
+        child: Text("Create now",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).primaryColor)));
+
     return Scaffold(
         body: Container(
             width: MediaQuery.of(context).size.width,
@@ -119,7 +130,11 @@ class _LoginPageState extends State<LoginPage> {
                     SizedBox(height: 15),
                     forgotPassword,
                     SizedBox(height: 15),
-                    loginButton
+                    loginButton,
+                    SizedBox(height: 15),
+                    Row(
+                      children: <Widget>[newUser, SizedBox(width: 10), signUp],
+                    )
                   ],
                 ),
               ),
@@ -142,24 +157,19 @@ class _LoginPageState extends State<LoginPage> {
           if (user.data == null) {
             showAlertDialog("User not found");
           } else {
-            showAlertDialog(user.data['email']);
+            if (user.data['password'] == password) {
+              launchHome();
+            } else {
+              showAlertDialog("Invalid username password");
+            }
           }
         });
-
-//        Map<String, String> user = {"email": email, "password": password};
-//        dbReference.setData(user).whenComplete(() {
-//          emailController.text = "";
-//          passwordController.text = "";
-//        });
       }
     });
   }
 
   void launchHome() {
-    Navigator.of(context)
-        .push(MaterialPageRoute<Null>(builder: (BuildContext context) {
-      return new WhatsAppHome(widget.cameras);
-    }));
+    Navigator.pushNamed(context, '/home');
   }
 
   void showAlertDialog(String message) {
@@ -169,7 +179,7 @@ class _LoginPageState extends State<LoginPage> {
       builder: (BuildContext context) {
         // return object of type Dialog
         return AlertDialog(
-          title: new Text("Alert Dialog title"),
+          title: new Text("System says"),
           content: new Text(message),
           actions: <Widget>[
             // usually buttons at the bottom of the dialog
