@@ -1,0 +1,3 @@
+rootProject.name='StringBundleSample'
+include ':app'
+include ':stringbundle'

@@ -1,0 +1,3 @@
+rootProject.name='RestringExample'
+include ':app'
+include ':stringbundle'

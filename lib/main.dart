@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/home':(context)=> WhatsAppHome(),
-        '/':(context)=> LoginPage(),
+//        '/':(context)=> LoginPage(),
+        '/':(context)=> WhatsAppHome(),
         '/signup':(context)=>SignUpPage(),
       },
     );

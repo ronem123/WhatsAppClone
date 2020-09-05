@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">RestringMMPTest</string>
+    <string name="topUpMoney_pleaseConfrimLabel">confirm</string>
+</resources>

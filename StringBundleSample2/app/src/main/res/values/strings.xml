@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">StringBundleSample</string>
+    <string name="topUpMoney_confirmButton">Topu confirm</string>
+</resources>

@@ -150,20 +150,20 @@ class _LoginPageState extends State<LoginPage> {
         widget.inValidPassword = true;
       } else {
         widget.inValidPassword = false;
-        DocumentReference dbReference =
-            Firestore.instance.collection("user").document(email);
-
-        dbReference.get().then((user) {
-          if (user.data == null) {
-            showAlertDialog("User not found");
-          } else {
-            if (user.data['password'] == password) {
-              launchHome();
-            } else {
-              showAlertDialog("Invalid username password");
-            }
-          }
-        });
+//        DocumentReference dbReference =
+//            Firestore.instance.collection("user").document(email);
+//
+//        dbReference.get().then((user) {
+//          if (user.data == null) {
+//            showAlertDialog("User not found");
+//          } else {
+//            if (user.data['password'] == password) {
+//              launchHome();
+//            } else {
+//              showAlertDialog("Invalid username password");
+//            }
+//          }
+//        });
       }
     });
   }
